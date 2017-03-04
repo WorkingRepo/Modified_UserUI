@@ -1,0 +1,8 @@
+.App {
+  padding: 10px;
+}
+
+.App .mood {
+  margin-right: 10px;
+  vertical-align: middle;
+}

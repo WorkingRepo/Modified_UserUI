@@ -129,9 +129,9 @@ import  MapView from './MapView';
                                     <button  className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"  data-hover="dropdown">
                                     <span className=" glyphicon glyphicon-search"></span>  <span className="caret"></span> </button>
                                     <ul className="dropdown-menu">
-                                      <li><a href="#" onClick={this.propagateToParentRest.bind(this)}>Restaurant Name</a></li>
+                                      <li><a href="#"  onClick={this.propagateToParentRest.bind(this)}>Restaurant Name</a></li>
                                       <li><a href="#" onClick={this.propagateToParentStreet.bind(this)}>Street Name</a></li>
-                                      <li><a href="#" onClick={this.propagateToParentTimings.bind(this)}>Timings</a></li>
+                                      <li><a href="#"   onClick={this.propagateToParentTimings.bind(this)}>Timings</a></li>
                                       <li><a href="#" onClick={this.propagateToParentAllRest.bind(this)}>All Restaurants</a></li>
 
                                       <li className="dropdown">
@@ -146,21 +146,7 @@ import  MapView from './MapView';
                                     </ul>
                                   </div>
                             </span>
-                        </div><br />
-                        <button className="btnstyles">
-                              <div className="dropdown">
-                                  <a className="btn dropdown-toggle" data-toggle="dropdown" href="#" >Near By &nbsp;<span className="fa fa-angle-down"></span></a>
-                                        <div className="dropdown-menu dropdown-content">
-                                            <li><a href="#" onClick={() => this.handlenear(5)}>5km</a></li>
-                                            <li><a href="#" onClick={() => this.handlenear(10)}>10km</a></li>
-                                            <li><a href="#" onClick={() => this.handlenear(15)}>15km</a></li>
-                                            <li><a href="#" onClick={() => this.handlenear(20)}>20km</a></li>
-                                        </div>
-                                </div>
-                        </button>
-                        <button>
-                            <a className="btn" href="#" onClick={this.propagateToParentTimings.bind(this)}>Timings</a>
-                        </button>
+                        </div>
                   </div>
               </div>
           </div>

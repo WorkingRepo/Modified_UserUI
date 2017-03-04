@@ -2,21 +2,25 @@ import React, { Component } from 'react';
 import Map from 'google-maps-react'
 import Home from './Home';
 import Navigation1 from './Navigation1';
-class NearMapView extends Component {
+class MapView extends Component {
 
   constructor(props) {
       super(props);
       this.state={searching:''};
+
+
+      this.getMap=this.getMap.bind(this);
  }
 
- componentDidMount(){
+ getMap(){
    var centers = [],i=0,markers = [],j=0;
 
        this.props.res.map((ele,j)=> {
-            centers[j] = new google.maps.LatLng(ele[2],ele[1]);
+            centers[j] = new google.maps.LatLng(ele.latitude,ele.longitude);
            }
 
         )
+
 
         var infoWindow = [];
         for(i=0;i<this.props.res.length;i++){
@@ -45,7 +49,7 @@ console.log('hi'+  this.props.laPos  +'    '+  this.props.loPos );
      var infowindow = new google.maps.InfoWindow();
      for(j=0;j<this.props.res.length;j++)
      {
-       var content = this.props.res[j][3];
+       var content = this.props.res[j].restName
        var mark = markers[j];
        google.maps.event.addListener(markers[j], 'mouseover', (function(mark, j,content )  {
           return function()  {
@@ -68,7 +72,7 @@ console.log('hi'+  this.props.laPos  +'    '+  this.props.loPos );
         <br/>
         <br/>
         <br/>
-
+          <button onClick={()=>this.getMap()}>get map</button>
           <div id="map" ></div>
           <div id="right-panel">
           <div>
@@ -82,4 +86,4 @@ console.log('hi'+  this.props.laPos  +'    '+  this.props.loPos );
 }
 
 
-export default NearMapView;
+export default MapView;

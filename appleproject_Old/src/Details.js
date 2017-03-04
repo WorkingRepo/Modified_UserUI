@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import Map from 'google-maps-react'
 import Home from './Home';
 import Navigation1 from './Navigation1';
-class NearDetails extends Component {
+class Details extends Component {
 
   constructor(props) {
       super(props);
       this.state={searching:''};
 
+
+      this.getMap=this.getMap.bind(this);
  }
 
- componentDidMount(){
+ getMap(){
    this.setState({searching: ' Results'});
 
- var myCenter = new google.maps.LatLng(this.props.rests[2],this.props.rests[1]);
+ var myCenter = new google.maps.LatLng(this.props.rests.latitude,this.props.rests.longitude);
  var myCenter1 = new google.maps.LatLng(this.props.laPos,this.props.loPos);
  var mapCanvas = document.getElementById("map");
  var mapOptions = {center: myCenter, zoom: 5};
@@ -31,7 +33,7 @@ var marker1=new google.maps.Marker({
 console.log('hi'+this.props.laPos+'    '+this.props.loPos );
 
  var infowindow = new google.maps.InfoWindow({
-    content: this.props.rests[3]
+    content: this.props.rests.restName
     });
   infowindow.open(map,marker);
 
@@ -122,41 +124,42 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
         <br/>
         <br/>
         <br/>
-        <h3>Restaurant Name:{this.props.rests[3]}</h3><br/>
+        <h3>Restaurant Name: {this.props.rests.restName}</h3><br/>
         <hr/>
         <div className="row">
            <div className="col-sm-4" >Street Name:</div>
-           <div className="col-sm-8"> {this.props.rests[4]}</div><br/>
+           <div className="col-sm-8"> {this.props.rests.streetName}</div><br/>
         </div>
         <div className="row">
            <div className="col-sm-4" >Address:</div>
-           <div className="col-sm-8"> {this.props.rests[5]}</div><br/>
+           <div className="col-sm-8"> {this.props.rests.address}</div><br/>
         </div>
         <div className="row">
            <div className="col-sm-4" >Phone:</div>
-           <div className="col-sm-8"> {this.props.rests[6]}</div><br/>
+           <div className="col-sm-8"> {this.props.rests.phone}</div><br/>
         </div>
          <div className="row">
            <div className="col-sm-4" >Opening Time:</div>
-           <div className="col-sm-8">{this.props.rests[10]}</div><br/>
+           <div className="col-sm-8">{this.props.rests.otime}</div><br/>
         </div>
         <div className="row">
            <div className="col-sm-4" >Closing Time:</div>
-           <div className="col-sm-8">{this.props.rests[11]}</div><br/>
+           <div className="col-sm-8">{this.props.rests.ctime}</div><br/>
         </div>
         <div className="row">
            <div className="col-sm-4" >Home Page:</div>
-           <div className="col-sm-8"><a href={this.props.rests[8]} target="_blank">{this.props.rests[8]}</a></div><br/>
+           <div className="col-sm-8"><a href={this.props.rests.homePage} target="_blank">{this.props.rests.homePage}</a></div><br/>
         </div>
         <div className="row">
            <div className="col-sm-4" >Facebook:</div>
-           <div className="col-sm-8"><a href={this.props.rests[9]} target="_blank">{this.props.rests[9]}</a></div><br/>
+           <div className="col-sm-8"><a href={this.props.rests.faceBook} target="_blank"> {this.props.rests.faceBook}</a></div><br/>
         </div>
         <div className="row">
            <div className="col-sm-4" >Email:</div>
-           <div className="col-sm-8">{this.props.rests.email}{this.props.rests[7]}</div><br/>
+           <div className="col-sm-8">{this.props.rests.email}</div><br/>
         </div>
         <br/>
+          <button onClick={()=>this.getMap()}>get map</button>
         <div id="map" ></div>
         <div id="right-panel">
           <div>
@@ -174,4 +177,4 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
 }
 
 
-export default NearDetails;
+export default Details;

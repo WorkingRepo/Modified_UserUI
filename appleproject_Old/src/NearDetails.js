@@ -8,9 +8,11 @@ class NearDetails extends Component {
       super(props);
       this.state={searching:''};
 
+
+      this.getMap=this.getMap.bind(this);
  }
 
- componentDidMount(){
+ getMap(){
    this.setState({searching: ' Results'});
 
  var myCenter = new google.maps.LatLng(this.props.rests[2],this.props.rests[1]);
@@ -157,6 +159,7 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
            <div className="col-sm-8">{this.props.rests.email}{this.props.rests[7]}</div><br/>
         </div>
         <br/>
+          <button onClick={()=>this.getMap()}>get map</button>
         <div id="map" ></div>
         <div id="right-panel">
           <div>

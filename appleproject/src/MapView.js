@@ -9,10 +9,10 @@ class MapView extends Component {
       this.state={searching:''};
 
 
-      this.getMap=this.getMap.bind(this);
+  
  }
 
- getMap(){
+ componentDidMount(){
    var centers = [],i=0,markers = [],j=0;
 
        this.props.res.map((ele,j)=> {
@@ -66,13 +66,14 @@ console.log('hi'+  this.props.laPos  +'    '+  this.props.loPos );
  }
 
   render() {
+
     return (
       <div>
         <Navigation1 />
         <br/>
         <br/>
         <br/>
-          <button onClick={()=>this.getMap()}>get map</button>
+
           <div id="map" ></div>
           <div id="right-panel">
           <div>
