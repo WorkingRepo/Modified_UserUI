@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import Navigation from './Navigation';
 import Home from './Home';
+import Example from './Example';
+import Login from './Login';
 import Popular from './Popular';
 import NearBy from './NearBy';
 import Services from './Services';
@@ -14,9 +16,9 @@ class App extends Component {
     {
       super();
       this.state={results:[],
-        laPosition: '17.410777 ',
+        laPosition: '17.410777',
         loPosition: ' 78.398778',
-        
+
       };
     }//17.410777, 78.398778
   componentWillMount() {
@@ -80,6 +82,7 @@ class App extends Component {
               </div>
               <Contact />
           </section>
+          <Example />
     	</div>
     );
   }

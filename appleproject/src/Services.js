@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-var Carousel = require('nuka-carousel');
+var Carousel = require('react-responsive-carousel').Carousel;
   class Services extends Component {
 
   render() {
@@ -63,10 +63,10 @@ var Carousel = require('nuka-carousel');
                 </div>
                 <div className="col-lg-5 col-lg-offset-2 col-sm-6">
 
-                    <Carousel autoplay="true" cellSpacing={20} wrapAround="true">
+                    <Carousel  showThumbs={false} showArrows={false} showStatus={false} autoPlay = {true} infiniteLoop = {true}>
                       <div className="imagewrap">
                          <img  src="images/slider3.jpg" width="470" height="320"/>
-                      
+
                       </div>
                       <div>
                          <img  src="images/slider1.jpg" width="470" height="320"/>

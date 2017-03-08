@@ -11,6 +11,7 @@ class NearDetails extends Component {
  }
 
  componentDidMount(){
+
    this.setState({searching: ' Results'});
 
  var myCenter = new google.maps.LatLng(this.props.rests[2],this.props.rests[1]);
@@ -121,8 +122,10 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
         <Navigation1 />
         <br/>
         <br/>
-        <br/>
-        <h3>Restaurant Name:{this.props.rests[3]}</h3><br/>
+        <br/><br/>
+        <h3>Restaurant Name:{this.props.rests[3]}</h3>
+        <img src={this.props.rests[12]} className="img-responsive" width="250" height="220"/><br/>
+
         <hr/>
         <div className="row">
            <div className="col-sm-4" >Street Name:</div>
@@ -154,7 +157,7 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
         </div>
         <div className="row">
            <div className="col-sm-4" >Email:</div>
-           <div className="col-sm-8">{this.props.rests.email}{this.props.rests[7]}</div><br/>
+           <div className="col-sm-8">{this.props.rests[7]}</div><br/>
         </div>
         <br/>
         <div id="map" ></div>
@@ -164,10 +167,6 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
           </div>
           <div id="output"></div>
         </div>
-
-
-
-
     	</div>
     );
   }

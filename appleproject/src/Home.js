@@ -36,9 +36,13 @@ import  MapView from './MapView';
     if(false == this.state.near)
     {
       ReactDOM.render(<Details rests = {this.state.res[id]} laPos={this.props.laPosition} loPos={this.props.loPosition}/>,c);
+    //  hashHistory.push('/Details/'+this.state.res[id]+this.props.laPosition+this.props.loPosition);
+
     }
     else {
       ReactDOM.render(<NearDetails rests = {this.state.res[id]} laPos={this.props.laPosition} loPos={this.props.loPosition}/>,c);
+      //hashHistory.push('/Details/'+id+);
+
     }
   }
 
@@ -54,6 +58,10 @@ import  MapView from './MapView';
 
     }
   }
+
+
+  //this.params.props.param_name
+
     propagateToParentRest(e){
            this.setState({
       searching: 'Search Results',
@@ -108,6 +116,16 @@ import  MapView from './MapView';
 
             this.props.setParentState({ results: this.state.res });
           }
+
+          propagateToParentPopular(e){
+            this.setState({searching:'Search Results'});
+                  fetch('http://localhost:9000/rests/popular').then(response => response.json())
+                    .then(( json ) => this.setState({res:json}))
+                    .catch(error => console.log(error));
+
+
+              this.props.setParentState({ results: this.state.res });
+            }
   render() {
 
   return(
@@ -133,6 +151,7 @@ import  MapView from './MapView';
                                       <li><a href="#" onClick={this.propagateToParentStreet.bind(this)}>Street Name</a></li>
                                       <li><a href="#" onClick={this.propagateToParentTimings.bind(this)}>Timings</a></li>
                                       <li><a href="#" onClick={this.propagateToParentAllRest.bind(this)}>All Restaurants</a></li>
+                                      <li><a href="#" onClick={this.propagateToParentPopular.bind(this)}>Popular</a></li>
 
                                       <li className="dropdown">
                                        <a className="dropdown-toggle" data-toggle="dropdown" href="#" >Near By<span className="caret"></span></a>
@@ -177,11 +196,22 @@ import  MapView from './MapView';
       return <div className="card">
 
               <div key={i} className="container1" >
+              <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                  <div className="hovereffect">
+                      <img src={ele.image} className="img-responsive" width="250" height="220"/>
+                      <div className="overlay">
+                         <h2>{ele.restName}{ele[3]}</h2>
+
+                           <a className="fa fa-home fa-lg info" href="#"><a href={ele.homePage} target="_blank">{ele.homePage}</a></a><br />
+
+                      </div>
+                  </div>
+              </div>
 
                          <h3>{ele.restName}{ele[3]}</h3><br/>
 
-                            <h5>Address&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{ele.address}{ele[5]}</h5>
 
+                            <h5>Address&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{ele.address}{ele[5]}</h5>
 
                        <button onClick={() => this.handleGo(i)}>   View Details</button>
 

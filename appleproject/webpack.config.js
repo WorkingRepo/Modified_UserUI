@@ -12,6 +12,11 @@ module.exports = {
     filename: './app.js',
     path: __dirname + '/build',
   },
+  devServer: {
+   inline:true,
+   port: 8008
+ },
+
   module: {
     loaders: [
       {

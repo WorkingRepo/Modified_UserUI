@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Map from 'google-maps-react'
 import Home from './Home';
 import Navigation1 from './Navigation1';
+import { SocialIcon } from 'react-social-icons';
+
 class Details extends Component {
 
   constructor(props) {
@@ -123,9 +125,17 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
         <br/>
         <br/>
         <br/>
-        <h3>Restaurant Name: {this.props.rests.restName}</h3><br/>
-        <hr/>
-        <div className="row">
+       <div className="row">
+
+
+
+
+        <center><h3>{this.props.rests.restName}</h3></center>
+        <img src={this.props.rests.image} className="img-responsive" width="100%"/><br/>
+          <hr/>
+         <div className="col-sm-3 col-md-6 col-lg-4 box" >
+
+        <div className="row"><br />
            <div className="col-sm-4" >Street Name:</div>
            <div className="col-sm-8"> {this.props.rests.streetName}</div><br/>
         </div>
@@ -148,10 +158,22 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
         <div className="row">
            <div className="col-sm-4" >Home Page:</div>
            <div className="col-sm-8"><a href={this.props.rests.homePage} target="_blank">{this.props.rests.homePage}</a></div><br/>
+           <a href={this.props.rests.homePage} target="_blank" className="icon-button facebook"><i className="fa fa-home" aria-hidden="false"></i><span></span></a>
+<SocialIcon url={this.props.rests.faceBook} />
+
+<div className="footer-social-icons">
+
+    <ul className="social-icons">
+        <li><a href="" className="social-icon"> <i className="fa fa-facebook"></i></a></li>
+    </ul>
+</div>
+
         </div>
         <div className="row">
            <div className="col-sm-4" >Facebook:</div>
            <div className="col-sm-8"><a href={this.props.rests.faceBook} target="_blank"> {this.props.rests.faceBook}</a></div><br/>
+           <a href={this.props.rests.faceBook} target="_blank" className="icon-button facebook"><i className="fa fa-facebook" aria-hidden="true"></i><span></span></a>
+
         </div>
         <div className="row">
            <div className="col-sm-4" >Email:</div>
@@ -159,6 +181,18 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
         </div>
         <br/>
 
+        <ul className="social-icons icon-circle icon-rotate list-unstyled list-inline">
+
+              	      <li> <a href={this.props.rests.faceBook} target="_blank"><i className="fa fa-facebook"></i></a></li>
+                      <li> <a href={this.props.rests.homePage} target="_blank"><i className="fa fa-home"></i></a></li>
+                      <li> <a href={this.props.rests.email}><i className="fa fa-envelope"></i></a></li>
+
+              	  	</ul>
+
+
+
+        </div>
+         <div className="col-sm-9 col-md-6 col-lg-8 box1">
         <div id="map" ></div>
         <div id="right-panel">
           <div>
@@ -166,11 +200,9 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
           </div>
           <div id="output"></div>
         </div>
-
-
-
-
-    	</div>
+        </div>
+      </div>
+    </div>
     );
   }
 }
