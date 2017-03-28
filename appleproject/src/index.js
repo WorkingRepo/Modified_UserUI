@@ -9,10 +9,9 @@ import About from './About'
 import Popular from './Popular'
 import Services from './Services'
 import Contact from './Contact'
-
-import Details from './Details'
+import DetailedStyle from './DetailedStyle'
 import NearDetails from './NearDetails'
-
+import Suggestions from './Suggestions'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 import './index.css';
@@ -25,8 +24,7 @@ ReactDOM.render((
     <Route path="/popular" component={Popular} />
     <Route path="/services" component={Services} />
     <Route path="/contact" component={Contact} />
-
-    <Route path="/details/:id" component={Details} />
+    <Route path="/details/:id" component={DetailedStyle} />
     <Route path="/neardetails" component={NearDetails} />
 
 

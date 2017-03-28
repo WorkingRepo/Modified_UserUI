@@ -35,6 +35,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
     "google-maps-react": "^1.0.19",

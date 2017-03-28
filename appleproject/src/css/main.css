@@ -204,7 +204,6 @@ INTRO CONTAINER
     height: 100%;
     background: url('/images/steak.jpg') no-repeat center center;
     background-size: cover;
-    text-align: center;
     background-position: center;
 }
 .follow_container {
@@ -223,7 +222,9 @@ INTRO CONTAINER
 .top-title{
     color: white;
     font-family: 'Playball', cursive;
-    font-size: 120px;
+    text-transform: capitalize;
+    letter-spacing: normal;
+    font-size: 100px;
     font-weight: 400;
  }
 .second-title {
@@ -261,6 +262,8 @@ INTRO CONTAINER
     padding: 0;
     border: 0;
     display: inline-block;
+    text-transform: capitalize;
+    letter-spacing: 2px;
 }
 .background_content h2 {
     font-size: 3em;
@@ -276,6 +279,8 @@ INTRO CONTAINER
 .background_content h1 span {
     color: white;
     border-bottom: 8px solid #fff;
+    text-transform: capitalize;
+    letter-spacing: 2px;
 }
 
 .background_content h2 span {
@@ -630,12 +635,7 @@ MEDIA QUERIES TABLET
     nav li{
         padding-right: -15px;
     }
-    .navbar-brand{
-        font-family: 'Pacifico', cursive;
-        font-size: 34px !important;
-        text-decoration: none;
-        color: white !important;
-    }
+
     nav {
         position: fixed;
         display: block;

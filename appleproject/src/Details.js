@@ -158,21 +158,11 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
         <div className="row">
            <div className="col-sm-4" >Home Page:</div>
            <div className="col-sm-8"><a href={this.props.rests.homePage} target="_blank">{this.props.rests.homePage}</a></div><br/>
-           <a href={this.props.rests.homePage} target="_blank" className="icon-button facebook"><i className="fa fa-home" aria-hidden="false"></i><span></span></a>
-<SocialIcon url={this.props.rests.faceBook} />
-
-<div className="footer-social-icons">
-
-    <ul className="social-icons">
-        <li><a href="" className="social-icon"> <i className="fa fa-facebook"></i></a></li>
-    </ul>
-</div>
-
+           
         </div>
         <div className="row">
            <div className="col-sm-4" >Facebook:</div>
            <div className="col-sm-8"><a href={this.props.rests.faceBook} target="_blank"> {this.props.rests.faceBook}</a></div><br/>
-           <a href={this.props.rests.faceBook} target="_blank" className="icon-button facebook"><i className="fa fa-facebook" aria-hidden="true"></i><span></span></a>
 
         </div>
         <div className="row">

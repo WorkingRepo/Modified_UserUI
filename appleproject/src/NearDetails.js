@@ -2,21 +2,49 @@ import React, { Component } from 'react';
 import Map from 'google-maps-react'
 import Home from './Home';
 import Navigation1 from './Navigation1';
+import './style.css';
+import './font-awesome.css';
+import './responsive.css';
+import './animate.css';
+
+var num;
+var add, radd;
+
 class NearDetails extends Component {
 
   constructor(props) {
       super(props);
-      this.state={searching:''};
+      this.state={searching:'',rest:[],phone:' '};
 
  }
 
  componentDidMount(){
+   console.log(this.props.rests.email);
+   var lat = this.props.rests.latitude;
+   var lng = this.props.rests.longitude;
+   var latlng = new google.maps.LatLng(lat, lng);
+   var geocoder = geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+                //this.setState({address:results[1].formatted_address});
+                radd = results[1].formatted_address;
+                radd.trim();
+                radd=radd.replace(/\s/g,'+');
+
+
+            }
+        }
+    });
+     console.log(radd);
 
    this.setState({searching: ' Results'});
-
+  this.setState({phone: this.props.rests[6]});
+  num=this.props.rests[6];
+  num=num.replace(/ /g,'');
  var myCenter = new google.maps.LatLng(this.props.rests[2],this.props.rests[1]);
  var myCenter1 = new google.maps.LatLng(this.props.laPos,this.props.loPos);
- var mapCanvas = document.getElementById("map");
+ var mapCanvas = document.getElementById("map1");
  var mapOptions = {center: myCenter, zoom: 5};
  var map = new google.maps.Map(mapCanvas, mapOptions);
  var marker = new google.maps.Marker({position:myCenter,
@@ -61,8 +89,10 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
      } else {
        var originList = response.originAddresses;
        var destinationList = response.destinationAddresses;
-       var outputDiv = document.getElementById('output');
-       outputDiv.innerHTML = '';
+       var outputDiv1 = document.getElementById('output1');
+       var outputDiv2 = document.getElementById('output2');
+       outputDiv1.innerHTML = '';
+         outputDiv2.innerHTML = '';
        (markersArray)=>{
          for (var i = 0; i < markersArray.length; i++) {
            markersArray[i].setMap(null);
@@ -88,8 +118,10 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
          for (var j = 0; j < results.length; j++) {
            geocoder.geocode({'address': destinationList[j]},
                showGeocodedAddressOnMap(true));
-           outputDiv.innerHTML += 'Distance from your location : ' +results[j].distance.text +
-               '<br /> Duration :' + results[j].duration.text + '<br>';
+           outputDiv1.innerHTML += '<h5>Distance from your location : '+results[j].distance.text+'</h5>';
+
+               outputDiv2.innerHTML +=
+                   ' <h5>Duration :' + results[j].duration.text + '<br></h5>';
          }
        }
      }
@@ -114,63 +146,375 @@ console.log('hi'+this.props.laPos+'    '+this.props.loPos );
        window.alert('Directions request failed due to ' + status);
      }
    });
+
+   fetch('http://localhost:9000/rests/pnearby/'+ this.props.laPos + '?lon=' + this.props.loPos + '&dist=' +this.props.dist).then(response => response.json())
+     .then(( json ) => this.setState({rest:json}))
+     .catch(error => console.log(error));
+     console.log("populars");
 }
 
+
+    handleMode(){
+      this.setState({searching: ' Results'});
+      this.setState({phone: this.props.rests[6]});
+      num=this.props.rests[6];
+      num=num.replace(/ /g,'')
+      var myCenter = new google.maps.LatLng(this.props.rests[2],this.props.rests[1]);
+      var myCenter1 = new google.maps.LatLng(this.props.laPos,this.props.loPos);
+      var mapCanvas = document.getElementById("map1");
+      var mapOptions = {center: myCenter, zoom: 5};
+      var map = new google.maps.Map(mapCanvas, mapOptions);
+      var marker = new google.maps.Marker({position:myCenter });
+      marker.setMap(map);
+      var marker1=new google.maps.Marker({
+                                     position:myCenter1,
+                                     animation:google.maps.Animation.BOUNCE,
+                                     icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                                     map:map
+                                   });
+      console.log('hi'+this.props.laPos+'    '+this.props.loPos );
+
+      var infowindow = new google.maps.InfoWindow({
+        content: this.props.rests[3]
+      });
+      infowindow.open(map,marker);
+
+      var infowindow1 = new google.maps.InfoWindow({
+        content: 'Your location'
+      });
+      infowindow1.open(map,marker1);
+
+
+      var bounds = new google.maps.LatLngBounds;
+      var markersArray = [];
+
+      var geocoder = new google.maps.Geocoder;
+
+      var selectedMode = document.getElementById('travelType').value;
+      var directionsService = new google.maps.DirectionsService;
+      var directionsDisplay = new google.maps.DirectionsRenderer({
+            suppressMarkers : true
+      });
+
+      directionsDisplay.setMap(map);
+      var selectedMode = document.getElementById('travelType').value;
+      directionsService.route({
+          origin: myCenter1,
+          destination: myCenter,
+          travelMode: google.maps.TravelMode[selectedMode]
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+      });
+
+      var service = new google.maps.DistanceMatrixService;
+      service.getDistanceMatrix({
+          origins: [myCenter1],
+          destinations: [myCenter],
+          travelMode: google.maps.TravelMode[selectedMode],
+          unitSystem: google.maps.UnitSystem.METRIC,
+          avoidHighways: false,
+          avoidTolls: false
+      }, function(response, status) {
+          if (status !== 'OK') {
+            alert('Error was: ' + status);
+          } else {
+            var originList = response.originAddresses;
+            var destinationList = response.destinationAddresses;
+            var outputDiv1 = document.getElementById('output1');
+            var outputDiv2 = document.getElementById('output2');
+            outputDiv1.innerHTML = '';
+              outputDiv2.innerHTML = '';
+            (markersArray)=>{
+              for (var i = 0; i < markersArray.length; i++) {
+                markersArray[i].setMap(null);
+              }
+              markersArray = [];
+            };
+
+            var showGeocodedAddressOnMap = function(asDestination) {
+            return function(results, status) {
+              if (status === 'OK') {
+                  map.fitBounds(bounds.extend(results[0].geometry.location));
+
+                } else {
+                  alert('Geocode was not successful due to: ' + status);
+                }
+              };
+            };
+
+            for (var i = 0; i < originList.length; i++) {
+              var results = response.rows[i].elements;
+              geocoder.geocode({'address': originList[i]},
+                  showGeocodedAddressOnMap(false));
+              for (var j = 0; j < results.length; j++) {
+                geocoder.geocode({'address': destinationList[j]},
+                    showGeocodedAddressOnMap(true));
+                outputDiv1.innerHTML = '<h5>Distance from your location : '+results[j].distance.text+'</h5>';
+
+                outputDiv2.innerHTML =
+                        ' <h5>Duration :' + results[j].duration.text + '<br></h5>';
+              }
+            }
+          }
+        });
+      }
+
+
+
   render() {
+    var sectionStyle = {
+
+      backgroundImage:"url(" + this.props.rests[12] + ") ",
+      backgroundSize : 'cover'
+
+    };
+
     return (
       <div>
         <Navigation1 />
         <br/>
-        <br/>
-        <br/><br/>
-        <h3>Restaurant Name:{this.props.rests[3]}</h3>
-        <img src={this.props.rests[12]} className="img-responsive" width="250" height="220"/><br/>
 
-        <hr/>
-        <div className="row">
-           <div className="col-sm-4" >Street Name:</div>
-           <div className="col-sm-8"> {this.props.rests[4]}</div><br/>
+        <header className="header" id="header" style={ sectionStyle }>
+          <div className="container">
+                <h2 className="animated fadeInDown delay-07s">{this.props.rests[3]}</h2>
+                <ul className="we-create animated fadeInUp delay-1s">
+                  <li>Explore the restaurant</li>
+                </ul>
+                    <a className="link animated fadeInUp delay-1s " href="#service">Get Started</a>
+            </div>
+        </header>
+
+
+        <section className="main-section alabaster" id="service">
+        <div className="container">
+            <div className="row">
+            <div className="col-lg-6 col-sm-6 animated fadeInLeft featured-work">
+
+                    <div className="featured-box">
+                        <div className="featured-box-col1 animated fadeInLeft delay-03s">
+                              <i className="fa-info-circle"></i>
+                          </div>
+                        <div className="featured-box-col2 animated fadeInLeft delay-03s">
+                              <h3>description</h3>
+                              <p>{this.props.rests[14]}</p>
+                          </div>
+                      </div>
+                      <div className="featured-box">
+                        <div className="featured-box-col1  animated fadeInLeft delay-06s">
+                            <i className="fa-star"></i>
+                          </div>
+                        <div className="featured-box-col2 animated  fadeInLeft delay-06s">
+                              <h3>highlights</h3>
+                              <p>{this.props.rests[15]}</p>
+                          </div>
+                      </div>
+                      <div className="featured-box">
+                        <div className="featured-box-col1 animated  fadeInLeft delay-09s">
+                            <i className="fa-cutlery"></i>
+                          </div>
+                        <div className="featured-box-col2  animated fadeInLeft delay-09s">
+                              <h3>Cuisines</h3>
+                              <p>{this.props.rests[16]}</p>
+                          </div>
+                      </div>
+                      <ul className="social-link animated fadeInLeft delay-12s">
+
+                          <li className="facebook"><a href={this.props.rests[9]} target="_blank"><i className="fa-facebook"></i></a></li>
+                          <li className="gplus"><a href={"mailto:"+this.props.rests[7]} target="_blank"><i className="fa-google-plus"></i></a></li>
+                          <li className="home"><a href={this.props.rests[8]} target="_blank"><i className="fa-home"></i></a></li>
+                          <li className="phone"><a href={"tel:"+num} ><i className="fa-phone"></i></a></li>
+
+                      </ul>
+            </div>
+
+
+
+                <div className="col-lg-6 col-sm-6 animated fadeInRight featured-work">
+
+                    <div className="featured-box">
+                        <div className="featured-box-col1 animated fadeInRight delay-03s">
+                              <i className=" icon-map-marker"></i>
+                          </div>
+                        <div className="featured-box-col2 animated fadeInRight delay-03s">
+                              <h3>Address</h3>
+                              <p>{this.props.rests[5]}</p>
+                          </div>
+                      </div>
+                      <div className="featured-box">
+                        <div className="featured-box-col1  animated fadeInRight delay-06s">
+                            <i className="fa-phone"></i>
+                          </div>
+                        <div className="featured-box-col2 animated  fadeInRight delay-06s">
+                              <h3>Phone</h3>
+                              <p>{this.props.rests[6]}</p>
+                          </div>
+                      </div>
+                      <div className="featured-box">
+                        <div className="featured-box-col1 animated  fadeInRight delay-09s">
+                            <i className="fa-pencil"></i>
+                          </div>
+                        <div className="featured-box-col2  animated fadeInRight delay-09s">
+                              <h3>email</h3>
+                              <p>{this.props.rests[7]}</p>
+                          </div>
+                      </div>
+                      <div className="featured-box">
+                        <div className="featured-box-col1 animated  fadeInRight delay-12s">
+                            <i className="fa-clock-o"></i>
+                        </div>
+                        <div className="featured-box-col2  animated fadeInRight delay-12s">
+                              <h3>Hours</h3>
+                              <p><strong>All Days:</strong> {this.props.rests[10]}-{this.props.rests[11]}<br /> </p>
+                          </div>
+                      </div>
+
+
+                  </div>
+              </div>
         </div>
-        <div className="row">
-           <div className="col-sm-4" >Address:</div>
-           <div className="col-sm-8"> {this.props.rests[5]}</div><br/>
-        </div>
-        <div className="row">
-           <div className="col-sm-4" >Phone:</div>
-           <div className="col-sm-8"> {this.props.rests[6]}</div><br/>
-        </div>
-         <div className="row">
-           <div className="col-sm-4" >Opening Time:</div>
-           <div className="col-sm-8">{this.props.rests[10]}</div><br/>
-        </div>
-        <div className="row">
-           <div className="col-sm-4" >Closing Time:</div>
-           <div className="col-sm-8">{this.props.rests[11]}</div><br/>
-        </div>
-        <div className="row">
-           <div className="col-sm-4" >Home Page:</div>
-           <div className="col-sm-8"><a href={this.props.rests[8]} target="_blank">{this.props.rests[8]}</a></div><br/>
-        </div>
-        <div className="row">
-           <div className="col-sm-4" >Facebook:</div>
-           <div className="col-sm-8"><a href={this.props.rests[9]} target="_blank">{this.props.rests[9]}</a></div><br/>
-        </div>
-        <div className="row">
-           <div className="col-sm-4" >Email:</div>
-           <div className="col-sm-8">{this.props.rests[7]}</div><br/>
-        </div>
-        <br/>
-        <div id="map" ></div>
-        <div id="right-panel">
-          <div>
-            <h2> {this.state.searching} </h2>
+        </section>
+
+
+
+
+
+        <section className="business-talking">
+        <div className="container">
+              <h2>Locate Us</h2>
           </div>
-          <div id="output"></div>
+        </section>
+
+          <section >
+            <div id="map1" className="marker"></div>
+
+            <br /><br />
+            <center>
+            <div id="travel_selector featured-box">
+            <h3><strong>Mode of Travel: </strong>
+              <select id="travelType" onChange={() => this.handleMode()}>
+                  <option value="DRIVING">Driving</option>
+                  <option value="WALKING">Walking</option>
+                  <option value="TRANSIT">Transit</option>
+              </select>
+            </h3>
+            </div>
+            </center>
+
+
+            <br/>
+
+
+          </section>
+
+
+
+
+                  <section className="main-section alabaster" id="service">
+              	   <div className="container">
+                  	 <div className="row">
+              			    <div className="col-lg-6 col-sm-6 animated fadeInLeft featured-work">
+
+                            <div className="featured-box">
+                              	<div className="featured-box-col1 animated fadeInLeft delay-03s">
+                                  		<i className="fa-car "></i>
+                                </div>
+                              	<div className="featured-box-col2 animated fadeInLeft delay-03s" id="output1">
+
+                                </div>
+                            </div>
+                            <div className="featured-box">
+                              <div className="featured-box-col1  animated fadeInRight delay-12s">
+                                <i className=" fa-clock-o "></i>
+                              </div>
+                              <div className="featured-box-col2 animated  fadeInRight delay-12s" id="output2">
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
+                      	  <div className="col-lg-6 col-sm-6 animated fadeInRight featured-work">
+
+                            <br /><br />
+                            <div className="featured-box">
+                              <div className="featured-box-col1  animated fadeInRight ">
+                                <i className=" fa-share-square-o"></i>
+                              </div>
+                              <div className="featured-box-col2 animated  fadeInRight">
+                              <a className="link" href={"mailto:"+"?subject=Directions&body=http://maps.google.com/maps?daddr="+radd} target="_blank">Share Directions</a>
+
+                              </div>
+                            </div>
+                          </div>
+
+
+                          </div>
+                        </div>
+                    </section>
+
+
+          <section className="main-section client-part" id="client">
+            <div className="container">
+              <b className="quote-right wow fadeInDown delay-03"><i className="fa-quote-right"></i></b>
+                <div className="row">
+                    <div className="col-lg-12">
+                        <p className="client-part-haead animated fadeInDown delay-15">Popular Nearby</p>
+                      </div>
+                  </div>
+
+              </div>
+          </section>
+
+
+
+
+                <section className="main-section paddind" id="Portfolio">
+
+                    <div className="portfolioContainer">
+
+
+                              {
+                               this.state.rest.map((ele,i)=> {
+
+                                 return <div className="suggestions">
+
+                                         <div key={i} className="container" >
+                                            <center>
+                                              <a href={ele[8]} target="_blank"> {ele[3]} </a>
+                                            </center>
+                                       </div>
+                                       </div>
+                                 } )}
+
+
+
+                    </div>
+                </section>
+
+
+
+
+
+        <footer className="footer">
+          <div className="container">
+              <div className="footer-logo"><a href="#"><img src="/src/img/footer-logo.png" alt="" /></a></div>
+              <span className="copyright">&copy; ATAK. All Rights Reserved</span>
+          </div>
+        </footer>
+
+
+
         </div>
-    	</div>
-    );
-  }
-}
+
+
+        );
+        }
+        }
 
 
 export default NearDetails;

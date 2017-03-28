@@ -87,7 +87,7 @@ const PaginationBasic = React.createClass({
           onSelect={this.handleSelect} />
         <br />
 
-  
+
       </div>
     );
   }

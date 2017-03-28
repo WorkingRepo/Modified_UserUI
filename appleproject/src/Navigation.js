@@ -30,6 +30,9 @@ import React, { Component } from 'react';
                 <li>
                     <a href="#contact">Contact</a>
                 </li>
+                <li>
+                    <a href="#suggest" data-toggle="modal" data-target="#myModal">Suggestions</a>
+                </li>
             </ul>
         </div>
 

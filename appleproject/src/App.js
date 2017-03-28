@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 
 import Navigation from './Navigation';
 import Home from './Home';
-import Example from './Example';
 import Login from './Login';
 import Popular from './Popular';
-import NearBy from './NearBy';
 import Services from './Services';
 import Contact from './Contact';
+import Suggestions from './Suggestions';
+
 import About from './About';
 
 class App extends Component {
@@ -74,7 +74,7 @@ class App extends Component {
                 </div>
                <Services />
       </section>
-
+      <Suggestions />
 
           <section id="contact" className="description_content">
               <div  className="featured background_content">
@@ -82,7 +82,6 @@ class App extends Component {
               </div>
               <Contact />
           </section>
-          <Example />
     	</div>
     );
   }

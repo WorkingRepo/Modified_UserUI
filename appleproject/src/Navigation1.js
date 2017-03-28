@@ -26,7 +26,7 @@ class Navigation1 extends Component {
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav navbar-right">
                 <li>
-                    <button id="ex" onClick={()=>this.handleGo()}>Home</button>
+                    <button id="ex" onClick={()=>this.handleGo()}><h4>Home</h4></button>
                 </li>
             </ul>
         </div>
